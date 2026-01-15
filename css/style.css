@@ -527,8 +527,26 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .section-title {
+        font-size: 22px;
+        display: flex;
+        flex-direction: row;
+        /* Keep in one line */
+        align-items: center;
+        justify-content: center;
+        /* Center horizontally */
+        flex-wrap: wrap;
+        /* Allow wrap if necessary but try to keep inline */
+    }
+
+    .section-title span {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 0;
+    }
+
     .section-title::after {
-        width: 100px;
+        display: none;
     }
 
     /* Navbar Mobile */
@@ -553,6 +571,20 @@ footer {
 
     .nav-links li {
         margin: 20px 0;
+        opacity: 0;
+        animation: navLinkFade 0.5s ease forwards 0.3s;
+    }
+
+    @keyframes navLinkFade {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     .hamburger {
@@ -562,22 +594,118 @@ footer {
 
     /* Hero Mobile */
     .hero-name {
-        font-size: 40px;
+        font-size: 36px;
     }
 
     .hero-subtitle {
-        font-size: 35px;
+        font-size: 24px;
+    }
+
+    .hero-desc {
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .cta-group {
+        display: flex;
+        flex-direction: row;
+        /* Keep buttons in row */
+        flex-wrap: wrap;
+        /* Wrap if needed */
+        justify-content: center;
+        gap: 15px;
+        /* Add gap */
+        width: 100%;
+    }
+
+    .cta-group .btn {
+        width: auto;
+        /* Default width */
+        margin: 0 0 10px 0;
+        /* Reset margins and add bottom space */
     }
 
     /* About Mobile */
     .about-content {
         grid-template-columns: 1fr;
+        text-align: center;
     }
 
     .about-img {
         margin-top: 50px;
     }
 
+    .skills-list {
+        justify-content: center;
+    }
+
+    /* Experience Mobile */
+    .experience-tabs {
+        width: 100%;
+    }
+
+    .experience-item {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .exp-role {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .exp-company {
+        display: block;
+        /* Stack company name */
+        margin-top: 5px;
+    }
+
+    /* Projects & Education Grids */
+    .projects-grid,
+    .education-grid {
+        grid-template-columns: 1fr;
+        /* Single column */
+    }
+
+    /* Contact Mobile */
+    .contact-head {
+        font-size: 32px;
+    }
+
+    .contact-form-wrapper {
+        padding: 20px;
+    }
+
+    .contact-form-wrapper button {
+        width: 100%;
+        /* Full width button */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        padding-top: 50px;
+    }
+
+    .hero-name {
+        font-size: 32px;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 /* Library Styles */
