@@ -267,38 +267,35 @@ header {
 
 .about-img .img-wrapper {
     position: relative;
-    border-radius: 4px;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     overflow: hidden;
     max-width: 300px;
     margin: 0 auto;
+    border: 2px solid var(--primary-color);
+    transition: all 5s ease-in-out;
+    /* Optional: Animate the blob shape slowly */
+    animation: blob-anim 10s ease-in-out infinite;
 }
 
-.about-img .img-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--primary-color);
-    opacity: 0.3;
-    transition: var(--transition);
-}
+@keyframes blob-anim {
+    0% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
 
-.about-img .img-wrapper:hover::after {
-    opacity: 0;
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
 }
 
 .about-img img {
     width: 100%;
     height: auto;
     display: block;
-    filter: grayscale(100%) contrast(1);
-    transition: var(--transition);
-}
-
-.about-img .img-wrapper:hover img {
-    filter: none;
+    /* Removed filter: grayscale */
 }
 
 /* Projects Section */
@@ -481,6 +478,21 @@ header {
     background: var(--bg-light);
     padding: 30px;
     border-radius: 8px;
+}
+
+.contact-form-wrapper p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 18px;
+    color: var(--heading-color);
+}
+
+.contact-form-wrapper button {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    /* Optional: nice touch */
+    min-width: 200px;
 }
 
 .form-group {

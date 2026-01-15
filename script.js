@@ -143,31 +143,15 @@ var typed = new Typed('#typed-output', {
     cursorChar: '_'
 });
 
-// Swiper.js for Projects
-var swiper = new Swiper(".mySwiper", {
-    effect: "coverflow",
-    grabCursor: true,
-    centeredSlides: true,
-    slidesPerView: "auto",
-    coverflowEffect: {
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: true,
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    initialSlide: 1 // Start at second slide for better visual
-});
+// Swiper JS removed as per user request to use Grid layout
 
-// VanillaTilt.js (Auto-init via data-tilt attribute in HTML is sufficient, but we can configure defaults here if needed)
-// VanillaTilt.init(document.querySelectorAll(".project-card"), {
-//     max: 25,
-//     speed: 400
-// });
+// VanillaTilt.js initialization
+VanillaTilt.init(document.querySelectorAll(".project-card"), {
+    max: 10,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.5
+});
 
 // Lottie Animation
 var animation = lottie.loadAnimation({
