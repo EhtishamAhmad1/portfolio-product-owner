@@ -1,3 +1,184 @@
+// Register GSAP ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
+
+// Initialize Locomotive Scroll
+const locoScroll = new LocomotiveScroll({
+    el: document.querySelector('[data-scroll-container]'),
+    smooth: true,
+    multiplier: 1, // Adjust scroll speed
+    class: 'is-revealed'
+});
+
+// Update ScrollTrigger on Locomotive Scroll event
+locoScroll.on("scroll", ScrollTrigger.update);
+
+// Tell ScrollTrigger to use these proxy methods for the ".smooth-scroll" element since Locomotive Scroll is hijacking things
+ScrollTrigger.scrollerProxy("[data-scroll-container]", {
+    scrollTop(value) {
+        return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+    }, 
+    getBoundingClientRect() {
+        return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
+    },
+    // Locomotive Scroll handles things completely differently on mobile devices - it doesn't even transform the container at all! S0 to get the correct behavior and avoid jitters, we should pin things with position: fixed on mobile. We sense it by checking to see if there's a transform applied to the container (the Locomotive Scroll-controlled element).
+    pinType: document.querySelector("[data-scroll-container]").style.transform ? "transform" : "fixed"
+});
+
+// Ensure ScrollTrigger uses the correct scroller
+ScrollTrigger.defaults({ scroller: "[data-scroll-container]" });
+
+// Particles.js
+particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 80,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#64ffda"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 40,
+        "size_min": 0.1,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#64ffda",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 6,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 400,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+
+// Typed.js
+var typed = new Typed('#typed-output', {
+    strings: ['Product Owner', 'Tech Enthusiast', 'Problem Solver'],
+    typeSpeed: 50,
+    backSpeed: 30,
+    loop: true,
+    cursorChar: '_'
+});
+
+// Swiper.js for Projects
+var swiper = new Swiper(".mySwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    initialSlide: 1 // Start at second slide for better visual
+});
+
+// VanillaTilt.js (Auto-init via data-tilt attribute in HTML is sufficient, but we can configure defaults here if needed)
+// VanillaTilt.init(document.querySelectorAll(".project-card"), {
+//     max: 25,
+//     speed: 400
+// });
+
+// Lottie Animation
+var animation = lottie.loadAnimation({
+    container: document.getElementById('lottie-scroll'), 
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'https://lottie.host/4b566832-6140-4965-9852-c0e4475471c2/Pj6qQ3d8y2.json' // Example scroll down arrow JSON
+});
+
+
 // Mobile Menu Toggle
 const navSlide = () => {
     const hamburger = document.querySelector('.hamburger');
@@ -5,104 +186,66 @@ const navSlide = () => {
     const navLinks = document.querySelectorAll('.nav-links li');
 
     hamburger.addEventListener('click', () => {
-        // Toggle Nav
         nav.classList.toggle('nav-active');
-
-        // Burger Animation
         hamburger.classList.toggle('toggle');
     });
 
-    // Close menu when link is clicked
-    navLinks.forEach((link, index) => {
-        link.addEventListener('click', () => {
+    // Close menu when link is clicked & Scroll to section
+    navLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+            // Close menu
             nav.classList.remove('nav-active');
             hamburger.classList.remove('toggle');
         });
     });
 }
-
 navSlide();
 
-// Smooth Scrolling for anchor links
+
+// Global Anchor Click Handler for Locomotive Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Scroll Animations (Intersection Observer)
-const sections = document.querySelectorAll('section');
-
-const observerOptions = {
-    root: null,
-    threshold: 0.1,
-    rootMargin: "-50px"
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-            return;
-        }
-        entry.target.classList.add('fade-in');
-        observer.unobserve(entry.target);
-    });
-}, observerOptions);
-
-sections.forEach(section => {
-    // Add initial opacity 0 in JS or CSS class
-    section.style.opacity = "0";
-    section.style.transform = "translateY(20px)";
-    section.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
-    
-    observer.observe(section);
-});
-
-// Add fade-in class style dynamically or handle in CSS
-const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-    .fade-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-    .toggle .line1 {
-        transform: rotate(-45deg) translate(-5px, 6px);
-    }
-    .toggle .line2 {
-        opacity: 0;
-    }
-    .toggle .line3 {
-        transform: rotate(45deg) translate(-5px, -6px);
-    }
-`;
-document.head.appendChild(styleSheet);
-
-
-// Contact Form Handling
-const contactForm = document.getElementById('contactForm');
-if(contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Here you would typically send the data to a server
-        // For demonstration processing:
-        const btn = contactForm.querySelector('button');
-        const originalText = btn.textContent;
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
         
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-
-        setTimeout(() => {
-            alert('Thank you for your message! I will get back to you soon.');
-            contactForm.reset();
-            btn.textContent = originalText;
-            btn.disabled = false;
-        }, 1500);
+        const target = document.querySelector(targetId);
+        if (target) {
+            locoScroll.scrollTo(target);
+        }
     });
-}
+});
+
+
+// GSAP Hero Animation
+gsap.from(".hero-name", {
+    duration: 1.5,
+    y: 100,
+    opacity: 0,
+    ease: "power4.out",
+    delay: 0.5
+});
+
+gsap.from(".hero-intro", {
+    duration: 1.5,
+    y: 50,
+    opacity: 0,
+    ease: "power4.out",
+    delay: 0.2
+});
+
+gsap.from(".cta-group", {
+    duration: 1.5,
+    y: 50,
+    opacity: 0,
+    ease: "power4.out",
+    delay: 0.8
+});
+
+
+// Each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
+ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+
+// After everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
+ScrollTrigger.refresh();
 
