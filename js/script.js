@@ -146,12 +146,12 @@ var typed = new Typed('#typed-output', {
 // Swiper JS removed as per user request to use Grid layout
 
 // VanillaTilt.js initialization
-VanillaTilt.init(document.querySelectorAll(".project-card"), {
-    max: 10,
-    speed: 400,
-    glare: true,
-    "max-glare": 0.5
-});
+// VanillaTilt.init(document.querySelectorAll(".project-card"), {
+//     max: 10,
+//     speed: 400,
+//     glare: true,
+//     "max-glare": 0.5
+// });
 
 // Lottie Animation
 var animation = lottie.loadAnimation({
